@@ -9,17 +9,50 @@ function App() {
 
   return (
     <div>
-      <h1>{course}</h1>
-      <p>
-        {part1} {exercises1}
-      </p>
-      <p>
-        {part2} {exercises2}
-      </p>
-      <p>
-        {part3} {exercises3}
-      </p>
-      <p>Number of exercises {exercises1 + exercises2 + exercises3}</p>
+      <Header course={course} />
+      <Content
+        part1={part1}
+        part2={part2}
+        part3={part3}
+        exercises1={exercises1}
+        exercises2={exercises2}
+        exercises3={exercises3}
+      />
+      <Total exercises={[exercises1, exercises2, exercises3]} />
+    </div>
+  );
+}
+
+function Header(props) {
+  return <h1>{props.course}</h1>;
+}
+
+function Content(props) {
+  return (
+    <div>
+      <Part part={props.part1} exercise={props.exercises1} />
+      <Part part={props.part2} exercise={props.exercises2} />
+      <Part part={props.part3} exercise={props.exercises3} />
+    </div>
+  );
+}
+
+function Part(props) {
+  return (
+    <p>
+      {props.part} {props.exercise}
+    </p>
+  );
+}
+
+function Total(props) {
+  let total = 0;
+  props.exercises.forEach((exercise) => {
+    total += exercise;
+  });
+  return (
+    <div>
+      <p>Number of exercises {total}</p>
     </div>
   );
 }
