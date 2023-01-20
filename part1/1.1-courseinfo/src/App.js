@@ -49,9 +49,7 @@ function Part({ part }) {
 
 function Total({ parts }) {
   let total = 0;
-  parts.forEach((part) => {
-    total += part.exercises;
-  });
+  parts.forEach((part) => (total += part.exercises));
   return (
     <div>
       <p>Number of exercises {total}</p>
