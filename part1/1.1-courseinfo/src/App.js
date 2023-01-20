@@ -25,31 +25,31 @@ function App() {
   );
 }
 
-function Header(props) {
-  return <h1>{props.name}</h1>;
+function Header({ name }) {
+  return <h1>{name}</h1>;
 }
 
-function Content(props) {
+function Content({ parts }) {
   return (
     <div>
-      <Part part={props.parts[0]} />
-      <Part part={props.parts[1]} />
-      <Part part={props.parts[2]} />
+      <Part part={parts[0]} />
+      <Part part={parts[1]} />
+      <Part part={parts[2]} />
     </div>
   );
 }
 
-function Part(props) {
+function Part({ part }) {
   return (
     <p>
-      {props.part.name} {props.part.exercises}
+      {part.name} {part.exercises}
     </p>
   );
 }
 
-function Total(props) {
+function Total({ parts }) {
   let total = 0;
-  props.parts.forEach((part) => {
+  parts.forEach((part) => {
     total += part.exercises;
   });
   return (
