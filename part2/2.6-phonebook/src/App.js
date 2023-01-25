@@ -10,18 +10,21 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [filterName, setFilterName] = useState("");
+
   useEffect(() => {
     console.log("use effect");
     axios.get("http://localhost:3001/persons").then((response) => {
       setPersons(response.data);
     });
   }, []);
+
   const filterPersons =
     filterName.trim() === ""
       ? persons
       : persons.filter((person) =>
           person.name.toLowerCase().includes(filterName.toLowerCase())
         );
+        
   const filterChange = (event) => {
     setFilterName(event.target.value);
   };
