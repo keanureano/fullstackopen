@@ -12,7 +12,6 @@ const App = () => {
   const [filterName, setFilterName] = useState("");
 
   useEffect(() => {
-    console.log("use effect");
     axios.get("http://localhost:3001/persons").then((response) => {
       setPersons(response.data);
     });
@@ -55,7 +54,7 @@ const App = () => {
     } else {
       alert(`${newPerson.name} is already added to phonebook`);
     }
-    
+
     setNewName("");
     setNewNumber("");
   };
