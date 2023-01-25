@@ -24,7 +24,7 @@ const App = () => {
       : persons.filter((person) =>
           person.name.toLowerCase().includes(filterName.toLowerCase())
         );
-        
+
   const filterChange = (event) => {
     setFilterName(event.target.value);
   };
@@ -45,6 +45,7 @@ const App = () => {
       number: newNumber,
       id: persons.length + 1,
     };
+
     if (
       !persons.some(
         (person) => person.name.toLowerCase() === newPerson.name.toLowerCase()
@@ -54,6 +55,7 @@ const App = () => {
     } else {
       alert(`${newPerson.name} is already added to phonebook`);
     }
+    
     setNewName("");
     setNewNumber("");
   };
