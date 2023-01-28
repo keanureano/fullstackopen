@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
+import "./index.css";
 import Form from "./components/Form";
 import Filter from "./components/Filter";
 import Person from "./components/Person";
 import Header from "./components/Header";
+import Notification from "./components/Notification";
 import personService from "./services/persons";
 
 const App = () => {
@@ -10,6 +12,7 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [filterName, setFilterName] = useState("");
+  const [notification, setNotification] = useState(null);
 
   useEffect(() => {
     personService.get().then((response) => {
@@ -62,6 +65,7 @@ const App = () => {
               person.id === changedPerson.id ? response.data : person
             )
           );
+          notify("success", `Changed ${changedPerson.name}'s number`);
         });
       }
       setNewName("");
@@ -71,6 +75,7 @@ const App = () => {
 
     personService.add(newPerson).then((response) => {
       setPersons(persons.concat(response.data));
+      notify("success", `Added ${newPerson.name}`);
     });
 
     setNewName("");
@@ -79,15 +84,34 @@ const App = () => {
 
   const deletePerson = (id, name) => {
     if (window.confirm(`Delete ${name} ?`)) {
-      personService.remove(id).then(() => {
-        setPersons(persons.filter((person) => person.id !== id));
-      });
+      personService
+        .remove(id)
+        .catch(() => {
+          notify(
+            "error",
+            `Information of ${name} has already been removed from server`
+          );
+        })
+        .finally(() => {
+          setPersons(persons.filter((person) => person.id !== id));
+        });
     }
+  };
+
+  const notify = (type, text) => {
+    setNotification({
+      type: type,
+      text: text,
+    });
+    setTimeout(() => {
+      setNotification(null);
+    }, 3000);
   };
 
   return (
     <div>
       <Header text="Phonebook" />
+      <Notification notification={notification} />
       <Filter values={{ filterName }} handlers={{ filterChange }} />
       <Header text="add a new" />
       <Form
