@@ -48,10 +48,12 @@ const App = () => {
       id: persons.length + 1,
     };
 
+    // remove this soon
     const existingPerson = persons.find(
       (person) => person.name.toLowerCase() === newPerson.name.toLowerCase()
     );
 
+    // remove this soon
     if (existingPerson) {
       if (
         window.confirm(
@@ -74,7 +76,8 @@ const App = () => {
     }
 
     personService.add(newPerson).then((response) => {
-      setPersons(persons.concat(response.data));
+      console.log(response);
+      setPersons(response.data);
       notify("success", `Added ${newPerson.name}`);
     });
 
