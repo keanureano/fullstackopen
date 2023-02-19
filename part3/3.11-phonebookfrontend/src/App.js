@@ -45,39 +45,38 @@ const App = () => {
     const newPerson = {
       name: newName,
       number: newNumber,
-      id: persons.length + 1,
     };
 
-    // remove this soon
-    const existingPerson = persons.find(
-      (person) => person.name.toLowerCase() === newPerson.name.toLowerCase()
-    );
+    // // remove this soon
+    // const existingPerson = persons.find(
+    //   (person) => person.name.toLowerCase() === newPerson.name.toLowerCase()
+    // );
 
-    // remove this soon
-    if (existingPerson) {
-      if (
-        window.confirm(
-          `${existingPerson.name} is already added to phonebook, replace the old number with a new one?`
-        )
-      ) {
-        const changedPerson = { ...existingPerson, number: newPerson.number };
-        personService.change(changedPerson).then((response) => {
-          setPersons(
-            persons.map((person) =>
-              person.id === changedPerson.id ? response.data : person
-            )
-          );
-          notify("success", `Changed ${changedPerson.name}'s number`);
-        });
-      }
-      setNewName("");
-      setNewNumber("");
-      return;
-    }
+    // // remove this soon
+    // if (existingPerson) {
+    //   if (
+    //     window.confirm(
+    //       `${existingPerson.name} is already added to phonebook, replace the old number with a new one?`
+    //     )
+    //   ) {
+    //     const changedPerson = { ...existingPerson, number: newPerson.number };
+    //     personService.change(changedPerson).then((response) => {
+    //       setPersons(
+    //         persons.map((person) =>
+    //           person.id === changedPerson.id ? response.data : person
+    //         )
+    //       );
+    //       notify("success", `Changed ${changedPerson.name}'s number`);
+    //     });
+    //   }
+    //   setNewName("");
+    //   setNewNumber("");
+    //   return;
+    // }
 
     personService.add(newPerson).then((response) => {
       console.log(response);
-      setPersons(response.data);
+      setPersons(persons.concat(response.data));
       notify("success", `Added ${newPerson.name}`);
     });
 
