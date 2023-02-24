@@ -47,32 +47,30 @@ const App = () => {
       number: newNumber,
     };
 
-    // // remove this soon
-    // const existingPerson = persons.find(
-    //   (person) => person.name.toLowerCase() === newPerson.name.toLowerCase()
-    // );
+    const existingPerson = persons.find(
+      (person) => person.name.toLowerCase() === newPerson.name.toLowerCase()
+    );
 
-    // // remove this soon
-    // if (existingPerson) {
-    //   if (
-    //     window.confirm(
-    //       `${existingPerson.name} is already added to phonebook, replace the old number with a new one?`
-    //     )
-    //   ) {
-    //     const changedPerson = { ...existingPerson, number: newPerson.number };
-    //     personService.change(changedPerson).then((response) => {
-    //       setPersons(
-    //         persons.map((person) =>
-    //           person.id === changedPerson.id ? response.data : person
-    //         )
-    //       );
-    //       notify("success", `Changed ${changedPerson.name}'s number`);
-    //     });
-    //   }
-    //   setNewName("");
-    //   setNewNumber("");
-    //   return;
-    // }
+    if (existingPerson) {
+      if (
+        window.confirm(
+          `${existingPerson.name} is already added to phonebook, replace the old number with a new one?`
+        )
+      ) {
+        const changedPerson = { ...existingPerson, number: newPerson.number };
+        personService.change(changedPerson).then((response) => {
+          setPersons(
+            persons.map((person) =>
+              person.id === response.data.id ? response.data : person
+            )
+          );
+          notify("success", `Changed ${changedPerson.name}'s number`);
+        });
+      }
+      setNewName("");
+      setNewNumber("");
+      return;
+    }
 
     personService.add(newPerson).then((response) => {
       console.log(response);
@@ -95,6 +93,7 @@ const App = () => {
           );
         })
         .finally(() => {
+          notify("success", `Deleted ${name}`);
           setPersons(persons.filter((person) => person.id !== id));
         });
     }
