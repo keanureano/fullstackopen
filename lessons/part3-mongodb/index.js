@@ -30,10 +30,6 @@ app.get("/api/notes/:id", (req, res, next) => {
 app.post("/api/notes", (req, res, next) => {
   const body = req.body;
 
-  if (body.content === undefined) {
-    return res.status(400).json({ error: "content missing" });
-  }
-
   const note = new Note({
     content: body.content,
     important: body.important || false,
@@ -63,7 +59,11 @@ app.put("/api/notes/:id", (req, res, next) => {
     content: body.content,
     important: body.important,
   };
-  Note.findByIdAndUpdate(req.params.id, note, { new: true })
+  Note.findByIdAndUpdate(req.params.id, note, {
+    new: true,
+    runValidators: true,
+    context: "query",
+  })
     .then((updatedNote) => {
       return res.json(updatedNote);
     })
@@ -81,6 +81,9 @@ const errorHandler = (error, req, res, next) => {
   console.error(error.message);
   if (error.name === "CastError") {
     return res.status(400).send({ error: "malformatted id" });
+  }
+  if (error.name === "ValidationError") {
+    return res.status(400).json({ error: error.message });
   }
   next(error);
 };
