@@ -72,11 +72,16 @@ const App = () => {
       return;
     }
 
-    personService.add(newPerson).then((response) => {
-      console.log(response);
-      setPersons(persons.concat(response.data));
-      notify("success", `Added ${newPerson.name}`);
-    });
+    personService
+      .add(newPerson)
+      .then((response) => {
+        console.log(response);
+        setPersons(persons.concat(response.data));
+        notify("success", `Added ${newPerson.name}`);
+      })
+      .catch((error) => {
+        notify("error", error.response.data.error);
+      });
 
     setNewName("");
     setNewNumber("");
