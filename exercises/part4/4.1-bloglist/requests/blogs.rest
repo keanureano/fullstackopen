@@ -4,7 +4,7 @@ Content-Type: application/json
 
 {
     "title": "Lorem Lemon",
-    "author": "Juan",
+    "author": "Pedro",
     "url": "https://www.lipsum.com/",
     "likes": 7
 }
