@@ -8,4 +8,5 @@ all exercises can be found at `./exercises` folder:
 - `./exercises/part2`
 - `./exercises/...`
 
+## lessons
 kindly ignore `./lessons` folder
