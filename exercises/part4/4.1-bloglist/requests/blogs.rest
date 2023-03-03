@@ -1,0 +1,10 @@
+### add note
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+    "title": "Lorem Lemon",
+    "author": "Juan",
+    "url": "https://www.lipsum.com/",
+    "likes": 7
+}
