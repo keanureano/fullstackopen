@@ -7,8 +7,22 @@ const totalLikes = (blogs) => {
     return 0;
   }
 
-  const getTotalLikes = (total, blog) => total + blog.likes;
-  return blogs.reduce(getTotalLikes, 0);
+  return blogs
+    .map((blog) => blog.likes)
+    .reduce((total, current) => total + current, 0);
 };
 
-module.exports = { dummy, totalLikes };
+const favoriteBlog = (blogs) => {
+  if (blogs.length === 0) {
+    return 0;
+  }
+
+  return blogs.reduce((mostLikedBlog, blog) => {
+    if (mostLikedBlog.likes < blog.likes) {
+      return blog;
+    }
+    return mostLikedBlog;
+  }, blogs[0]);
+};
+
+module.exports = { dummy, totalLikes, favoriteBlog };
