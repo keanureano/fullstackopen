@@ -29,4 +29,31 @@ const favoriteBlog = (blogs) => {
   };
 };
 
-module.exports = { dummy, totalLikes, favoriteBlog };
+const mostBlogs = (blogs) => {
+  if (blogs.length === 0) {
+    return 0;
+  }
+  let authorToBlogCount = {};
+  blogs.forEach((blog) => {
+    if (blog.author in authorToBlogCount) {
+      authorToBlogCount[blog.author] += 1;
+    } else {
+      authorToBlogCount[blog.author] = 1;
+    }
+  });
+  const mostAmountBlog = Object.keys(authorToBlogCount).reduce(
+    (mostAmount, key) => {
+      const currentAmount = {
+        author: key,
+        blogs: authorToBlogCount[key],
+      };
+      return mostAmount.blogs > currentAmount.blogs
+        ? mostAmount
+        : currentAmount;
+    },
+    0
+  );
+  return mostAmountBlog;
+};
+
+module.exports = { dummy, totalLikes, favoriteBlog, mostBlogs, mostLikes };
