@@ -67,16 +67,17 @@ const mostLikes = (blogs) => {
     } else {
       authorToLikeCount[blog.author] = blog.likes;
     }
-    const mostLikesBlog = Object.keys(authorToLikeCount).reduce(
-      (mostLikes, key) => {
-        const currentLikes = {
-          author: key,
-          likes: authorToLikeCount[key],
-        };
-        return mostLikes.likes > currentLikes.likes ? mostLikes : currentLikes;
-      }
-    );
   });
+  const mostLikesBlog = Object.keys(authorToLikeCount).reduce(
+    (mostLikes, key) => {
+      const currentLikes = {
+        author: key,
+        likes: authorToLikeCount[key],
+      };
+      return mostLikes.likes > currentLikes.likes ? mostLikes : currentLikes;
+    },
+    0
+  );
   return mostLikesBlog;
 };
 
