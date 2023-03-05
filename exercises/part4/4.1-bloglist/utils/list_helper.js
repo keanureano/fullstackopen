@@ -16,13 +16,17 @@ const favoriteBlog = (blogs) => {
   if (blogs.length === 0) {
     return 0;
   }
-
-  return blogs.reduce((mostLikedBlog, blog) => {
-    if (mostLikedBlog.likes < blog.likes) {
+  const mostLikedBlog = blogs.reduce((largestBlog, blog) => {
+    if (largestBlog.likes < blog.likes) {
       return blog;
     }
-    return mostLikedBlog;
+    return largestBlog;
   }, blogs[0]);
+  return {
+    title: mostLikedBlog.title,
+    author: mostLikedBlog.author,
+    likes: mostLikedBlog.likes,
+  };
 };
 
 module.exports = { dummy, totalLikes, favoriteBlog };
