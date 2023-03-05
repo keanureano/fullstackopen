@@ -16,9 +16,9 @@ const favoriteBlog = (blogs) => {
   if (blogs.length === 0) {
     return 0;
   }
-  const mostLikedBlog = blogs.reduce((largestBlog, blog) => {
-    if (largestBlog.likes < blog.likes) {
-      return blog;
+  const mostLikedBlog = blogs.reduce((largestBlog, currentBlog) => {
+    if (largestBlog.likes < currentBlog.likes) {
+      return currentBlog;
     }
     return largestBlog;
   }, blogs[0]);
