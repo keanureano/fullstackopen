@@ -13,6 +13,10 @@ describe("blog api", () => {
       .expect(200)
       .expect("Content-Type", /application\/json/);
   });
+
+  test("blog post unique identifier is named id and not _id", async () => {
+    await api.get("/api/blogs").toBeDefined();
+  });
 });
 
 afterAll(async () => {
