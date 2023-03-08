@@ -46,8 +46,8 @@ describe("blog api", () => {
     expect(blogTitles).toContain("New Title");
   });
 
-  test("blog likes property defaults to 0 if it is missing", async () => {
-    const newBlog = {
+  test("blog likes defaults to 0 if likes is missing", async () => {
+    const missingLikesBlog = {
       title: "New Title",
       author: "New Author",
       url: "https://newurl.com/",
@@ -55,12 +55,30 @@ describe("blog api", () => {
 
     const result = await api
       .post("/api/blogs")
-      .send(newBlog)
+      .send(missingLikesBlog)
       .expect(201)
       .expect("Content-Type", /application\/json/);
 
     const savedBlog = result.body;
     expect(savedBlog.likes).toBe(0);
+  });
+
+  test("blog fails to save if title o url is missing", async () => {
+    const missingTitleBlog = {
+      author: "New Author",
+      url: "https://newurl.com/",
+      likes: 0,
+    };
+
+    await api.post("/api/blogs").send(missingTitleBlog).expect(400);
+
+    const missingUrlBlog = {
+      title: "New Title",
+      author: "New Author",
+      likes: 0,
+    };
+
+    await api.post("/api/blogs").send(missingUrlBlog).expect(400);
   });
 });
 
