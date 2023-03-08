@@ -41,9 +41,26 @@ describe("blog api", () => {
 
     const blogs = await helper.getBlogs();
     expect(blogs.length).toEqual(helper.initialBlogs.length + 1);
-    
+
     const blogTitles = blogs.map((blog) => blog.title);
     expect(blogTitles).toContain("New Title");
+  });
+
+  test("blog likes property defaults to 0 if it is missing", async () => {
+    const newBlog = {
+      title: "New Title",
+      author: "New Author",
+      url: "https://newurl.com/",
+    };
+
+    const result = await api
+      .post("/api/blogs")
+      .send(newBlog)
+      .expect(201)
+      .expect("Content-Type", /application\/json/);
+
+    const savedBlog = result.body;
+    expect(savedBlog.likes).toBe(0);
   });
 });
 
