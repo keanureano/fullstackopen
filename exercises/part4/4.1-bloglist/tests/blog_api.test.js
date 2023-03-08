@@ -1,10 +1,15 @@
 const mongoose = require("mongoose");
 const supertest = require("supertest");
+const Blog = require("../models/blog");
+const helper = require("./blog_api_helper");
 const app = require("../app");
 const api = supertest(app);
 jest.setTimeout(10000);
 
-beforeAll(async () => {});
+beforeAll(async () => {
+  await Blog.deleteMany({});
+  await Blog.insertMany(helper.initialBlogs);
+});
 
 describe("blog api", () => {
   test("blogs are returned as json", async () => {
@@ -14,8 +19,11 @@ describe("blog api", () => {
       .expect("Content-Type", /application\/json/);
   });
 
-  test("blog post unique identifier is named id and not _id", async () => {
-    await api.get("/api/blogs").toBeDefined();
+  test("blog id is not named _id", async () => {
+    const result = await api.get("/api/blogs");
+    const blogs = result.body;
+    expect(blogs[0].id).toBeDefined();
+    expect(blogs[0]._id).toBe(undefined);
   });
 });
 
