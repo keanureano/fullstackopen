@@ -20,8 +20,7 @@ describe("blog api", () => {
   });
 
   test("blog id is not named _id", async () => {
-    const result = helper.getBlogs();
-    const blogs = result.body;
+    const blogs = await helper.getBlogs();
     expect(blogs[0].id).toBeDefined();
     expect(blogs[0]._id).toBe(undefined);
   });

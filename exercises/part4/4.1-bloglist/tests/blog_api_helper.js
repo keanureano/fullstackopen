@@ -52,7 +52,8 @@ const initialBlogs = [
 ];
 
 const getBlogs = async () => {
-  return await Blog.find({}).map((blog) => blog.toJSON());
+  const blogs = await Blog.find({});
+  return blogs.map((blog) => blog.toJSON());
 };
 
 module.exports = {
