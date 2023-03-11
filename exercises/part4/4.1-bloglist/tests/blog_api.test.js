@@ -91,7 +91,23 @@ describe("adding blogs", () => {
   });
 });
 
-// describe("deleting blogs", () => {});
+describe("deleting blogs", () => {
+  test("valid blog can be deleted", async () => {
+    const blogs = await helper.getBlogs();
+    await api.delete(`/api/blogs/${blogs[0].id}`).expect(204);
+  });
+
+  test("unkown id will throw 204", async () => {
+    const unknownId = "4a422bc61b54a676234d17fc"
+
+    await api.delete(`/api/blogs/${unknownId}`).expect(204);
+  });
+
+  test("invalid id will throw 404", async () => {
+    const invalidId = "123"
+    await api.delete(`/api/blogs/${invalidId}`)
+  })
+});
 
 afterAll(async () => {
   await mongoose.connection.close();
