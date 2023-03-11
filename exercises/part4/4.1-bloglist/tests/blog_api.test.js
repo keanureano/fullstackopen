@@ -31,8 +31,6 @@ describe("viewing blogs", () => {
   });
 });
 
-// describe("viewing a specific blog", () => {});
-
 describe("adding blogs", () => {
   test("valid blog can be added", async () => {
     const newBlog = {
@@ -98,15 +96,34 @@ describe("deleting blogs", () => {
   });
 
   test("unkown id will throw 204", async () => {
-    const unknownId = "4a422bc61b54a676234d17fc"
+    const unknownId = "4a422bc61b54a676234d17fc";
 
     await api.delete(`/api/blogs/${unknownId}`).expect(204);
   });
 
-  test("invalid id will throw 404", async () => {
-    const invalidId = "123"
-    await api.delete(`/api/blogs/${invalidId}`)
-  })
+  test("invalid id will throw 400", async () => {
+    const invalidId = "123";
+    await api.delete(`/api/blogs/${invalidId}`).expect(400);
+  });
+});
+
+describe("updating blogs", () => {
+  test("valid blog can be updated", async () => {
+    const blogs = await helper.getBlogs();
+    const updatedBlog = { ...blogs[0], likes: blogs[0].likes + 1 };
+    const response = await api
+      .put(`/api/blogs/${updatedBlog.id}`)
+      .send(updatedBlog)
+      .expect(200)
+      .expect("Content-Type", /application\/json/);
+    expect(response.body.likes).toBe(updatedBlog.likes);
+  });
+
+  test("invalid blog will throw error", async () => {
+    const blogs = await helper.getBlogs();
+    const invalidBlog = { ...blogs[0], id: "123", likes: blogs[0].likes + 1 };
+    await api.put(`/api/blogs/${invalidBlog.id}`).send(invalidBlog).expect(400);
+  });
 });
 
 afterAll(async () => {
