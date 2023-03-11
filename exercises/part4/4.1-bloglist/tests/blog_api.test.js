@@ -11,7 +11,7 @@ beforeAll(async () => {
   await Blog.insertMany(helper.initialBlogs);
 });
 
-describe("blog api", () => {
+describe("viewing blogs", () => {
   test("blogs are returned as json", async () => {
     await api
       .get("/api/blogs")
@@ -19,12 +19,21 @@ describe("blog api", () => {
       .expect("Content-Type", /application\/json/);
   });
 
-  test("blog id is not named _id", async () => {
+  test("all blogs are returned", async () => {
+    const response = await api.get("/api/blogs");
+    expect(response.body.length).toBe(helper.initialBlogs.length);
+  });
+
+  test("blogs id is not named _id", async () => {
     const blogs = await helper.getBlogs();
     expect(blogs[0].id).toBeDefined();
     expect(blogs[0]._id).toBe(undefined);
   });
+});
 
+// describe("viewing a specific blog", () => {});
+
+describe("adding blogs", () => {
   test("valid blog can be added", async () => {
     const newBlog = {
       title: "New Title",
@@ -53,13 +62,13 @@ describe("blog api", () => {
       url: "https://newurl.com/",
     };
 
-    const result = await api
+    const response = await api
       .post("/api/blogs")
       .send(missingLikesBlog)
       .expect(201)
       .expect("Content-Type", /application\/json/);
 
-    const savedBlog = result.body;
+    const savedBlog = response.body;
     expect(savedBlog.likes).toBe(0);
   });
 
@@ -81,6 +90,8 @@ describe("blog api", () => {
     await api.post("/api/blogs").send(missingUrlBlog).expect(400);
   });
 });
+
+// describe("deleting blogs", () => {});
 
 afterAll(async () => {
   await mongoose.connection.close();
