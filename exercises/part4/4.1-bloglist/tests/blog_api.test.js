@@ -122,7 +122,10 @@ describe("updating blogs", () => {
   test("invalid blog will throw error", async () => {
     const blogs = await helper.getBlogs();
     const invalidBlog = { ...blogs[0], id: "123", likes: blogs[0].likes + 1 };
-    await api.put(`/api/blogs/${invalidBlog.id}`).send(invalidBlog).expect(400);
+    const response = await api
+      .put(`/api/blogs/${invalidBlog.id}`)
+      .send(invalidBlog)
+      .expect(400);
   });
 });
 
