@@ -3,8 +3,12 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-    "title": "Lorem Lemon",
-    "author": "Pedro",
+    "title": "Lorem Orange",
+    "author": "Juan",
     "url": "https://www.lipsum.com/",
-    "likes": 7
+    "likes": 7,
+    "userId": "6423bc6df40f617afbe4ea8f"
 }
+
+### delete note
+DELETE http://localhost:3003/api/blogs/6401fa5fdce0043c5c33d790
