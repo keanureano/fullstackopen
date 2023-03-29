@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const supertest = require("supertest");
 const Blog = require("../models/blog");
-const helper = require("./blog_api_helper");
+const helper = require("./test_helper");
 const app = require("../app");
 const api = supertest(app);
 jest.setTimeout(10000);
