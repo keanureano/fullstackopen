@@ -37,6 +37,61 @@ describe("when there is initially one user in db", () => {
     expect(usernames).toContain(newUser.username);
   });
 
+  test("creation fails if username or password is empty", async () => {
+    const usersBefore = await helper.usersInDb();
+
+    const emptyUser = {
+      name: "test",
+    };
+
+    const result = await api
+      .post("/api/users")
+      .send(emptyUser)
+      .expect(400)
+      .expect("Content-Type", /application\/json/);
+
+    expect(result.body.error).toContain("username and password are required");
+
+    const usersAfter = await helper.usersInDb();
+    expect(usersBefore).toEqual(usersAfter);
+  });
+
+  test("creation fails if username or password is not at least 3 characters long", async () => {
+    const usersBefore = await helper.usersInDb();
+
+    const invalidUser = {
+      username: "t",
+      password: "t",
+    };
+
+    const validUser = {
+      username: "tes",
+      password: "tes",
+    };
+
+    const result = await api
+      .post("/api/users")
+      .send(invalidUser)
+      .expect(400)
+      .expect("Content-Type", /application\/json/);
+
+    expect(result.body.error).toContain(
+      "username and password must be at least 3 characters long"
+    );
+
+    const usersAfterInvalid = await helper.usersInDb();
+    expect(usersBefore).toEqual(usersAfterInvalid);
+
+    await api
+      .post("/api/users")
+      .send(validUser)
+      .expect(201)
+      .expect("Content-Type", /application\/json/);
+
+    const usersAfterValid = await helper.usersInDb();
+    expect(usersAfterValid.length).toBe(usersBefore.length + 1);
+  });
+
   test("creation fails if username is already taken", async () => {
     const usersBefore = await helper.usersInDb();
 
@@ -55,7 +110,7 @@ describe("when there is initially one user in db", () => {
     expect(result.body.error).toContain("expected `username` to be unique");
 
     const usersAfter = await helper.usersInDb();
-    expect(usersBefore).toEqual(usersAfter)
+    expect(usersBefore).toEqual(usersAfter);
   });
 
   afterAll(async () => {
