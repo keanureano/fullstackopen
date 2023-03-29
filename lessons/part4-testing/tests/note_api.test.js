@@ -1,12 +1,21 @@
 const supertest = require("supertest");
 const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
 const helper = require("./test_helper");
 const app = require("../app");
 const api = supertest(app);
 
 const Note = require("../models/note");
+const User = require("../models/user");
 
 describe("when there is initially some notes saved", () => {
+  beforeAll(async () => {
+    await User.deleteMany({});
+    const passwordHash = await bcrypt.hash("test", 10);
+    const user = new User({ username: "test", passwordHash });
+    await user.save();
+  });
+
   beforeEach(async () => {
     await Note.deleteMany({});
     await Note.insertMany(helper.initialNotes);
@@ -66,8 +75,13 @@ describe("when there is initially some notes saved", () => {
         important: true,
       };
 
+      const newLogin = await api
+        .post("/api/login")
+        .send({ username: "test", password: "test" });
+
       await api
         .post("/api/notes")
+        .set("Authorization", `Bearer ${newLogin.body.token}`)
         .send(newNote)
         .expect(201)
         .expect("Content-Type", /application\/json/);
