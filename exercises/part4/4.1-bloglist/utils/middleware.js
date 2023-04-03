@@ -1,8 +1,5 @@
 const logger = require("./logger");
 
-const morgan = require("morgan");
-const requestLogger = morgan("tiny");
-
 const unknownEndpoint = (req, res) => {
   return res.status(404).send({ error: "unknown endpoint" });
 };
@@ -12,7 +9,7 @@ const errorHandler = (error, req, res, next) => {
     return res.status(400).json({ error: error.message });
   }
   if (error.name === "CastError") {
-    return res.status(400).json({ error: error.message });
+    return res.status(400).json({ error: "malformed id" });
   }
   if (error.name === "JsonWebTokenError") {
     return res.status(400).json({ error: error.message });
@@ -31,7 +28,6 @@ const tokenExtractor = (req, res, next) => {
 };
 
 module.exports = {
-  requestLogger,
   unknownEndpoint,
   errorHandler,
   tokenExtractor,

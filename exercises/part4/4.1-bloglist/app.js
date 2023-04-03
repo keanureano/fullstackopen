@@ -3,6 +3,7 @@ const express = require("express");
 require("express-async-errors");
 const cors = require("cors");
 const mongoose = require("mongoose");
+const morgan = require("morgan");
 
 const blogsRouter = require("./controllers/blogs");
 const usersRouter = require("./controllers/users");
@@ -24,10 +25,10 @@ mongoose
   });
 
 const app = express();
+app.use(morgan("tiny"));
 app.use(cors());
 app.use(express.json());
 
-app.use(middleware.requestLogger);
 app.use(middleware.tokenExtractor);
 
 app.use("/api/blogs", blogsRouter);
