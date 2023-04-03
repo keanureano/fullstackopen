@@ -7,12 +7,17 @@ const app = require("../app");
 const api = supertest(app);
 jest.setTimeout(10000);
 
+const addUser = async () => {
+  await User.deleteMany({});
+  const username = helper.initialUser.username;
+  const passwordHash = await bcrypt.hash(helper.initialUser.password, 10);
+  const user = new User({ username, passwordHash });
+  await user.save();
+};
+
 describe("when there is initially one user in db", () => {
   beforeEach(async () => {
-    await User.deleteMany({});
-    const passwordHash = await bcrypt.hash("test", 10);
-    const user = new User({ username: "test", passwordHash });
-    await user.save();
+    await addUser();
   });
 
   test("creation succeeds with fresh username", async () => {

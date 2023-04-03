@@ -17,12 +17,12 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtlYW51IiwiaWQiOiI2NDIzYmM2ZGY0MGY2MTdhZmJlNGVhOGYiLCJpYXQiOjE2ODA1MTQ5OTB9._m5TNyvxjFFkAhlwOW6hFhmWJUKR-VPdwHDkq8EEIAA
 
 {
-    "title": "Token Tuesday",
-    "author": "Berto",
-    "url": "https://www.lipsum.com/",
-    "likes": 7
+  "title": "Token Tuesday",
+  "author": "Berto",
+  "url": "https://www.lipsum.com/",
+  "likes": 7
 }
 
 ### delete blog
-DELETE http://localhost:3003/api/blogs/642aa67456242db4763d62a0
+DELETE http://localhost:3003/api/blogs/4a422bc61b54a676234d17fc
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtlYW51IiwiaWQiOiI2NDIzYmM2ZGY0MGY2MTdhZmJlNGVhOGYiLCJpYXQiOjE2ODA1MTQ5OTB9._m5TNyvxjFFkAhlwOW6hFhmWJUKR-VPdwHDkq8EEIAA
