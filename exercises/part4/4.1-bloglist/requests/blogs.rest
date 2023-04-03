@@ -1,14 +1,17 @@
-### add note
+### get blogs
+GET http://localhost:3003/api/blogs
+
+### add blog
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtlYW51IiwiaWQiOiI2NDIzYmM2ZGY0MGY2MTdhZmJlNGVhOGYiLCJpYXQiOjE2ODA1MDk2NzR9.lLxJicDQmV7zKBWvDfJFPUnY4dWxmWQ5ZktbIb37lhE
 
 {
-    "title": "Lorem Orange",
-    "author": "Juan",
+    "title": "Token Taco",
+    "author": "Berto",
     "url": "https://www.lipsum.com/",
-    "likes": 7,
-    "userId": "6423bc6df40f617afbe4ea8f"
+    "likes": 7
 }
 
-### delete note
+### delete blog
 DELETE http://localhost:3003/api/blogs/6401fa5fdce0043c5c33d790

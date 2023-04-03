@@ -13,6 +13,9 @@ const errorHandler = (error, req, res, next) => {
   }
   if (error.name === "CastError") {
     return res.status(400).json({ error: error.message });
+  }
+  if (error.name === "JsonWebTokenError") {
+    return res.status(400).json({ error: error.message });
   } else {
     logger.error(error.message);
   }
