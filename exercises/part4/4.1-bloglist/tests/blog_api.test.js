@@ -134,7 +134,7 @@ describe("adding blogs", () => {
       likes: 0,
     };
 
-    await api.post("/api/blogs").send(missingTokenBlog).expect(400);
+    await api.post("/api/blogs").send(missingTokenBlog).expect(401);
   });
 });
 
@@ -148,18 +148,18 @@ describe("deleting blogs", () => {
       .expect(204);
   });
 
-  test("missing token will throw 400", async () => {
+  test("missing token will throw 401", async () => {
     const validId = await getValidBlogId();
-    await api.delete(`/api/blogs/${validId}`).expect(400);
+    await api.delete(`/api/blogs/${validId}`).expect(401);
   });
 
-  test("invalid token will throw 400", async () => {
+  test("invalid token will throw 401", async () => {
     const validId = await getValidBlogId();
     const invalidToken = `test${await getToken()}test`;
     await api
       .delete(`/api/blogs/${validId}`)
       .set("Authorization", invalidToken)
-      .expect(400);
+      .expect(401);
   });
 
   test("unkown id will throw 204", async () => {
