@@ -1,4 +1,6 @@
 const logger = require("./logger");
+const User = require("../models/user");
+const jwt = require("jsonwebtoken");
 
 const unknownEndpoint = (req, res) => {
   return res.status(404).send({ error: "unknown endpoint" });
@@ -27,8 +29,25 @@ const tokenExtractor = (req, res, next) => {
   next();
 };
 
+const userExtractor = async (req, res, next) => {
+  if (!req.token) {
+    return next();
+  }
+  const decodedToken = jwt.verify(req.token, process.env.SECRET);
+  if (!decodedToken.id) {
+    return res.status(401).json({ error: "token invalid" });
+  }
+  const user = await User.findById(decodedToken.id);
+  if (!user) {
+    return res.status(401).json({ error: "user not found" });
+  }
+  req.user = user.id.toString();
+  next();
+};
+
 module.exports = {
   unknownEndpoint,
   errorHandler,
   tokenExtractor,
+  userExtractor,
 };
