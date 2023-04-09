@@ -20,6 +20,15 @@ const App = () => {
     });
   }, []);
 
+  useEffect(() => {
+    const loginUser = window.localStorage.getItem("loginUser");
+    if (loginUser) {
+      const user = JSON.parse(loginUser);
+      setUser(user);
+      noteService.setToken(user.token);
+    }
+  }, []);
+
   const addNote = (event) => {
     event.preventDefault();
     const noteObject = {
@@ -63,14 +72,15 @@ const App = () => {
     event.preventDefault();
 
     try {
-      const loginUser = await loginService.login({
+      const user = await loginService.login({
         username,
         password,
       });
-      setUser(loginUser);
+      window.localStorage.setItem("loginUser", JSON.stringify(user));
+      noteService.setToken(user.token);
+      setUser(user);
       setUsername("");
       setPassword("");
-      console.log(loginUser);
     } catch (error) {
       setErrorMessage("Wrong credentials");
       setTimeout(() => {
