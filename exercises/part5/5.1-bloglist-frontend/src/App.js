@@ -25,6 +25,7 @@ const LoginForm = ({ setUser }) => {
       setUsername("");
       setPassword("");
     } catch (error) {
+      console.error(error);
     }
   };
 
