@@ -6,6 +6,12 @@ import localStorageUserService from "./services/localStorageUser";
 
 const App = () => {
   const [user, setUser] = useState(null);
+  const [notification, setNotification] = useState(null);
+
+  const showNotif = (message, type) => {
+    setNotification({ message, type });
+    setTimeout(() => setNotification(null), 5000);
+  };
 
   useEffect(() => {
     const localStorageUser = localStorageUserService.get();
@@ -17,13 +23,16 @@ const App = () => {
 
   return (
     <div>
-      {user === null && <LoginForm setUser={setUser} />}
-      {user !== null && <Blogs setUser={setUser} user={user} />}
+      <Notification notification={notification} />
+      {user === null && <LoginForm setUser={setUser} showNotif={showNotif} />}
+      {user !== null && (
+        <Blogs setUser={setUser} user={user} showNotif={showNotif} />
+      )}
     </div>
   );
 };
 
-const LoginForm = ({ setUser }) => {
+const LoginForm = ({ setUser, showNotif }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -37,8 +46,11 @@ const LoginForm = ({ setUser }) => {
       setUser(user);
       setUsername("");
       setPassword("");
+      const successMessage = "sucessfully logged in";
+      showNotif(successMessage, "success");
     } catch (error) {
-      console.error(error);
+      const errorMessage = error.response.data.error;
+      showNotif(errorMessage, "error");
     }
   };
 
@@ -70,7 +82,7 @@ const LoginForm = ({ setUser }) => {
   );
 };
 
-const Blogs = ({ setUser, user }) => {
+const Blogs = ({ setUser, user, showNotif }) => {
   const [blogs, setBlogs] = useState([]);
 
   const handleLogout = () => {
@@ -94,7 +106,7 @@ const Blogs = ({ setUser, user }) => {
         <button onClick={handleLogout}>logout</button>
       </div>
       <h2>blogs</h2>
-      <CreateBlogForm blogs={blogs} setBlogs={setBlogs} />
+      <CreateBlogForm blogs={blogs} setBlogs={setBlogs} showNotif={showNotif} />
       {blogs.map((blog) => (
         <Blog key={blog.id} blog={blog} />
       ))}
@@ -102,7 +114,7 @@ const Blogs = ({ setUser, user }) => {
   );
 };
 
-const CreateBlogForm = ({ blogs, setBlogs }) => {
+const CreateBlogForm = ({ blogs, setBlogs, showNotif }) => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [url, setUrl] = useState("");
@@ -112,8 +124,11 @@ const CreateBlogForm = ({ blogs, setBlogs }) => {
     try {
       const response = await blogService.create({ title, author, url });
       setBlogs([...blogs, response]);
+      const successMessage = `a new blog ${response.title} by ${response.author}`;
+      showNotif(successMessage, "success");
     } catch (error) {
-      console.error(error);
+      const errorMessage = error.response.data.error;
+      showNotif(errorMessage, "error");
     }
     setTitle("");
     setAuthor("");
@@ -150,6 +165,17 @@ const CreateBlogForm = ({ blogs, setBlogs }) => {
         </div>
         <button type="submit">create</button>
       </form>
+    </div>
+  );
+};
+
+const Notification = ({ notification }) => {
+  if (!notification) {
+    return null;
+  }
+  return (
+    <div className={`notif notif-${notification.type}`}>
+      {notification.message}
     </div>
   );
 };
