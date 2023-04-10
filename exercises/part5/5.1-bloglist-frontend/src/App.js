@@ -2,13 +2,20 @@ import { useState, useEffect } from "react";
 import Blog from "./components/Blog";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
+import localStorageUserService from "./services/localStorageUser";
 
 const App = () => {
   const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const localStorageUser = localStorageUserService.get();
+    setUser(localStorageUser);
+  }, []);
+
   return (
     <div>
       {user === null && <LoginForm setUser={setUser} />}
-      {user !== null && <Blogs user={user} />}
+      {user !== null && <Blogs setUser={setUser} user={user} />}
     </div>
   );
 };
@@ -19,8 +26,11 @@ const LoginForm = ({ setUser }) => {
 
   const handleLogin = async (event) => {
     event.preventDefault();
+
     try {
       const user = await loginService.login({ username, password });
+      blogService.setToken(user.token);
+      localStorageUserService.set(user);
       setUser(user);
       setUsername("");
       setPassword("");
@@ -57,16 +67,29 @@ const LoginForm = ({ setUser }) => {
   );
 };
 
-const Blogs = ({ user }) => {
+const Blogs = ({ setUser, user }) => {
   const [blogs, setBlogs] = useState([]);
 
+  const handleLogout = () => {
+    setUser(null);
+    localStorageUserService.clear();
+  };
+
   useEffect(() => {
-    blogService.getAll().then((blogs) => setBlogs(blogs));
+    const getAllBlogs = async () => {
+      const response = await blogService.getAll();
+      setBlogs(response);
+    };
+
+    getAllBlogs();
   }, []);
 
   return (
     <div>
-      <p>{user.username} logged in</p>
+      <div>
+        {user.username} logged in
+        <button onClick={handleLogout}>logout</button>
+      </div>
       <h2>blogs</h2>
       {blogs.map((blog) => (
         <Blog key={blog.id} blog={blog} />
