@@ -1,7 +1,7 @@
 import Togglable from "./Togglable";
 
 const LoginForm = ({
-  handleSubmit,
+  handleLogin,
   handleUsernameChange,
   handlePasswordChange,
   username,
@@ -10,7 +10,7 @@ const LoginForm = ({
   return (
     <Togglable buttonLabel="login">
       <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleLogin}>
         <div>
           username
           <input value={username} onChange={handleUsernameChange} />

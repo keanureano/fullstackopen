@@ -9,7 +9,6 @@ import NoteForm from "./components/NoteForm";
 
 const App = () => {
   const [notes, setNotes] = useState([]);
-  const [newNote, setNewNote] = useState("");
   const [showAll, setShowAll] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
   const [username, setUsername] = useState("");
@@ -31,20 +30,9 @@ const App = () => {
     }
   }, []);
 
-  const handleNoteChange = (event) => {
-    setNewNote(event.target.value);
-  };
-
-  const handleNoteSubmit = (event) => {
-    event.preventDefault();
-    const noteObject = {
-      content: newNote,
-      important: Math.random() > 0.5,
-    };
-
+  const addNote = (noteObject) => {
     noteService.create(noteObject).then((returnedNote) => {
       setNotes(notes.concat(returnedNote));
-      setNewNote("");
     });
   };
 
@@ -72,7 +60,6 @@ const App = () => {
 
   const handleLogin = async (event) => {
     event.preventDefault();
-
     try {
       const user = await loginService.login({
         username,
@@ -97,24 +84,27 @@ const App = () => {
       <Notification message={errorMessage} />
 
       {!user && (
-        <LoginForm
-          username={username}
-          password={password}
-          handleUsernameChange={({ target }) => setUsername(target.value)}
-          handlePasswordChange={({ target }) => setPassword(target.value)}
-          handleSubmit={handleLogin}
-        />
+        <div>
+          <LoginForm
+            username={username}
+            password={password}
+            handleUsernameChange={({ target }) => setUsername(target.value)}
+            handlePasswordChange={({ target }) => setPassword(target.value)}
+            handleLogin={handleLogin}
+          />
+        </div>
       )}
 
       {user && (
-        <NoteForm
-          user={user}
-          handleNoteChange={handleNoteChange}
-          handleNoteSubmit={handleNoteSubmit}
-          newNote={newNote}
-          showAll={showAll}
-          setShowAll={setShowAll}
-        />
+        <div>
+          <LogoutForm setUser={setUser} />
+          <NoteForm
+            user={user}
+            addNote={addNote}
+            showAll={showAll}
+            setShowAll={setShowAll}
+          />
+        </div>
       )}
 
       <Notes
@@ -124,6 +114,16 @@ const App = () => {
       <Footer />
     </div>
   );
+};
+
+const LogoutForm = ({ setUser }) => {
+  const handleLogout = async (event) => {
+    event.preventDefault();
+    window.localStorage.removeItem("loginUser");
+    noteService.setToken(null);
+    setUser(null);
+  };
+  return <button onClick={handleLogout}>logout</button>;
 };
 
 export default App;
