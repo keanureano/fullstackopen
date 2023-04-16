@@ -19,7 +19,7 @@ const App = () => {
     notifRef.current.showNotif(message, type);
   };
 
-  const addBlog = async (newBlog) => {
+  const createBlog = async (newBlog) => {
     blogFormRef.current.toggleVisibility();
     const returnedBlog = await blogService.create(newBlog);
     setBlogs(blogs.concat(returnedBlog));
@@ -50,7 +50,7 @@ const App = () => {
       <Notification ref={notifRef} />
       <LogoutForm user={user} setUser={setUser} />
       <Togglable label="new blog" ref={blogFormRef}>
-        <BlogForm addBlog={addBlog} showNotif={showNotif} />
+        <BlogForm createBlog={createBlog} showNotif={showNotif} />
       </Togglable>
       <Blogs
         setUser={setUser}

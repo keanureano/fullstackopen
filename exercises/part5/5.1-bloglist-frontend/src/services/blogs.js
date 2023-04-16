@@ -11,12 +11,20 @@ const getAll = async () => {
   return response.data;
 };
 
-const create = async (request) => {
+const create = async (newBlog) => {
   const authConfig = {
     headers: { Authorization: token },
   };
-  const response = await axios.post(baseUrl, request, authConfig);
+  const response = await axios.post(baseUrl, newBlog, authConfig);
   return response.data;
 };
 
-export default { getAll, setToken, create };
+const put = async (blog) => {
+  const authConfig = {
+    headers: { Authorization: token },
+  };
+  const response = await axios.put(`${baseUrl}/${blog.id}`, blog, authConfig);
+  return response.data;
+};
+
+export default { getAll, setToken, create, put };

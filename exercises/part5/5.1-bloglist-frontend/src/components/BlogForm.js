@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const BlogForm = ({ addBlog, showNotif }) => {
+const BlogForm = ({ createBlog, showNotif }) => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [url, setUrl] = useState("");
@@ -9,7 +9,7 @@ const BlogForm = ({ addBlog, showNotif }) => {
     event.preventDefault();
     try {
       const newBlog = { title, author, url };
-      const response = await addBlog(newBlog);
+      const response = await createBlog(newBlog);
       const successMessage = `a new blog ${response.title} by ${response.author}`;
       showNotif(successMessage, "success");
     } catch (error) {
