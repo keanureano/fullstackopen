@@ -6,7 +6,10 @@ const Blogs = ({ blogs, setBlogs }) => {
   useEffect(() => {
     const getAllBlogs = async () => {
       const response = await blogService.getAll();
-      setBlogs(response);
+      const sortedBlogs = [...response].sort(
+        (current, next) => next.likes - current.likes
+      );
+      setBlogs(sortedBlogs);
     };
 
     getAllBlogs();
