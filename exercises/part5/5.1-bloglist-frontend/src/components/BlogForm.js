@@ -13,8 +13,8 @@ const BlogForm = ({ addBlog, showNotif }) => {
       const successMessage = `a new blog ${response.title} by ${response.author}`;
       showNotif(successMessage, "success");
     } catch (error) {
-      console.log(error);
-      
+      const errorMessage = error.response.data.error;
+      showNotif(errorMessage, "error");
     }
     setTitle("");
     setAuthor("");

@@ -12,3 +12,9 @@
 .notif-error {
   border-color: lightcoral;
 }
+
+.blog {
+  margin-bottom: 8px;
+  padding: 8px;
+  border: 1px solid;
+}
