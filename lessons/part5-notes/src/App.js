@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Notification from "./components/Notification";
 import Footer from "./components/Footer";
 import loginService from "./services/login";
@@ -6,6 +6,7 @@ import LoginForm from "./components/LoginForm";
 import noteService from "./services/notes";
 import Notes from "./components/Notes";
 import NoteForm from "./components/NoteForm";
+import Togglable from "./components/Togglable";
 
 const App = () => {
   const [notes, setNotes] = useState([]);
@@ -14,6 +15,7 @@ const App = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
+  const noteFormRef = useRef();
 
   useEffect(() => {
     noteService.getAll().then((initialNotes) => {
@@ -31,6 +33,7 @@ const App = () => {
   }, []);
 
   const addNote = (noteObject) => {
+    noteFormRef.current.toggleVisibility();
     noteService.create(noteObject).then((returnedNote) => {
       setNotes(notes.concat(returnedNote));
     });
@@ -98,12 +101,14 @@ const App = () => {
       {user && (
         <div>
           <LogoutForm setUser={setUser} />
-          <NoteForm
-            user={user}
-            addNote={addNote}
-            showAll={showAll}
-            setShowAll={setShowAll}
-          />
+          <Togglable buttonLabel="new note" ref={noteFormRef}>
+            <NoteForm
+              user={user}
+              addNote={addNote}
+              showAll={showAll}
+              setShowAll={setShowAll}
+            />
+          </Togglable>
         </div>
       )}
 
