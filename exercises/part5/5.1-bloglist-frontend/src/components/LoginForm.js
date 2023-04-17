@@ -2,6 +2,7 @@ import { useState } from "react";
 import loginService from "../services/login";
 import blogService from "../services/blogs";
 import localStorageUserService from "../services/localStorageUser";
+import PropTypes from "prop-types";
 
 const LoginForm = ({ setUser, showNotif }) => {
   const [username, setUsername] = useState("");
@@ -52,6 +53,11 @@ const LoginForm = ({ setUser, showNotif }) => {
       </form>
     </div>
   );
+};
+
+LoginForm.propTypes = {
+  setUser: PropTypes.func.isRequired,
+  showNotif: PropTypes.func.isRequired,
 };
 
 export default LoginForm;

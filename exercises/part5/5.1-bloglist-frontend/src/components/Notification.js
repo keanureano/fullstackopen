@@ -24,4 +24,6 @@ const Notification = forwardRef((props, ref) => {
   );
 });
 
+Notification.displayName = "Notification";
+
 export default Notification;
