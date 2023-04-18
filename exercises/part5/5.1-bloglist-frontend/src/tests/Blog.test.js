@@ -1,9 +1,8 @@
 import React from "react";
 import "@testing-library/jest-dom/extend-expect";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, fireEvent, act } from "@testing-library/react";
 import Blog from "../components/Blog";
 import blogService from "../services/blogs";
-import { act } from "@testing-library/react";
 
 describe("blog", () => {
   const blog = {
@@ -54,7 +53,7 @@ describe("blog", () => {
     await toggleBlog();
     const likeButton = container.querySelector(".blog-like-btn");
 
-    await act(() => {
+    await act(async () => {
       fireEvent.click(likeButton);
       fireEvent.click(likeButton);
     });

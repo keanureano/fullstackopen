@@ -22,7 +22,7 @@ const BlogForm = ({ createBlog, showNotif }) => {
   };
 
   return (
-    <div>
+    <div className="blog-form">
       <h2>create new</h2>
       <form onSubmit={handleSubmit}>
         <div>
