@@ -17,13 +17,14 @@ const Blog = ({ blog }) => {
   };
 
   const handleDelete = async () => {
-    const confirmDelete = window.confirm(`Remove blog ${blog.title} by ${blog.author}`);
+    const confirmDelete = window.confirm(
+      `Remove blog ${blog.title} by ${blog.author}`
+    );
     if (!confirmDelete) {
       return;
     }
     const response = await blogService.remove(blog);
     const status = response.status === 204;
-    console.log(status);
     setIsDeleted(status);
   };
 
@@ -54,7 +55,8 @@ const Blog = ({ blog }) => {
 const BlogHeader = ({ blog }) => {
   return (
     <div>
-      {blog.title} {blog.author}
+      <div className="blog-title">{blog.title}</div>
+      <div className="blog-author">{blog.author}</div>
     </div>
   );
 };
@@ -62,13 +64,19 @@ const BlogHeader = ({ blog }) => {
 const BlogDetails = ({ blog, likes, handleLike, handleDelete }) => {
   return (
     <div>
-      <a href={blog.url}>{blog.url}</a>
-      <div>
+      <a className="blog-url" href={blog.url}>
+        {blog.url}
+      </a>
+      <div className="blog-likes">
         likes {likes}
-        <button onClick={handleLike}>like</button>
+        <button className="blog-like-btn" onClick={handleLike}>
+          like
+        </button>
       </div>
       <div>{blog.user.username}</div>
-      <button onClick={handleDelete}>delete</button>
+      <button className="blog-delete-btn" onClick={handleDelete}>
+        delete
+      </button>
     </div>
   );
 };
