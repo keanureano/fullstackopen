@@ -41,7 +41,7 @@ const Blog = ({ blog }) => {
       <BlogHeader blog={blog} />
       <ToggleButton toggleDetails={toggleDetails} details={details} />
       {details && (
-        <BlogDetails
+        <BlogBody
           blog={blog}
           likes={likes}
           handleLike={handleLike}
@@ -61,7 +61,7 @@ const BlogHeader = ({ blog }) => {
   );
 };
 
-const BlogDetails = ({ blog, likes, handleLike, handleDelete }) => {
+const BlogBody = ({ blog, likes, handleLike, handleDelete }) => {
   return (
     <div>
       <a className="blog-url" href={blog.url}>
@@ -83,7 +83,11 @@ const BlogDetails = ({ blog, likes, handleLike, handleDelete }) => {
 
 const ToggleButton = ({ toggleDetails, details }) => {
   const buttonLabel = details ? "hide" : "show";
-  return <button onClick={toggleDetails}>{buttonLabel}</button>;
+  return (
+    <button className="blog-toggle-btn" onClick={toggleDetails}>
+      {buttonLabel}
+    </button>
+  );
 };
 
 export default Blog;
