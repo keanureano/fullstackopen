@@ -6,7 +6,7 @@ Cypress.Commands.add("loginUser", function ({ username, password }) {
     password,
   }).then(function ({ body }) {
     localStorage.setItem("localStorageUser", JSON.stringify(body));
-    cy.visit("");
+    cy.visit("/");
   });
 });
 

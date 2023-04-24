@@ -24,12 +24,12 @@ const BlogForm = ({ createBlog, showNotif }) => {
   return (
     <div>
       <h2>create new</h2>
-      <form id="blog-form" onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit}>
         <div>
           title:
           <input
             value={title}
-            id="blog-title"
+            id="form-title"
             onChange={({ target }) => setTitle(target.value)}
           />
         </div>
@@ -37,7 +37,7 @@ const BlogForm = ({ createBlog, showNotif }) => {
           author:
           <input
             value={author}
-            id="blog-author"
+            id="form-author"
             onChange={({ target }) => setAuthor(target.value)}
           />
         </div>
@@ -45,11 +45,13 @@ const BlogForm = ({ createBlog, showNotif }) => {
           url:
           <input
             value={url}
-            id="blog-url"
+            id="form-url"
             onChange={({ target }) => setUrl(target.value)}
           />
         </div>
-        <button type="submit">create</button>
+        <button id="form-submit" type="submit">
+          create
+        </button>
       </form>
     </div>
   );
