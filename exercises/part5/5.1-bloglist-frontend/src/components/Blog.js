@@ -1,7 +1,7 @@
 import { useState } from "react";
 import blogService from "../services/blogs";
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, showNotif }) => {
   const [details, setDetails] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
   const [likes, setLikes] = useState(blog.likes);
@@ -17,15 +17,21 @@ const Blog = ({ blog }) => {
   };
 
   const handleDelete = async () => {
-    const confirmDelete = window.confirm(
-      `Remove blog ${blog.title} by ${blog.author}`
-    );
-    if (!confirmDelete) {
-      return;
+    try {
+      const confirmDelete = window.confirm(
+        `Remove blog ${blog.title} by ${blog.author}`
+      );
+      if (!confirmDelete) {
+        return;
+      }
+      const response = await blogService.remove(blog);
+      const status = response.status === 204;
+      setIsDeleted(status);
+      showNotif("successfully deleted", "success");
+    } catch (error) {
+      const errorMessage = error.response.data.error;
+      showNotif(errorMessage, "error");
     }
-    const response = await blogService.remove(blog);
-    const status = response.status === 204;
-    setIsDeleted(status);
   };
 
   const toggleDetails = () => {

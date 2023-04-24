@@ -55,8 +55,6 @@ const App = () => {
         </div>
       )}
       <Blogs
-        setUser={setUser}
-        user={user}
         blogs={blogs}
         setBlogs={setBlogs}
         showNotif={showNotif}

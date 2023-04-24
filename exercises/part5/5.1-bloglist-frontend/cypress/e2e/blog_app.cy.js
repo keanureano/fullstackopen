@@ -81,6 +81,22 @@ describe.only("When user has a created blog", function () {
   it("user can delete a blog", function () {
     cy.contains("show").click();
     cy.get(".blog-delete-button").click();
-    cy.should("not.contain", ".blog");
+    cy.contains("successfully deleted");
+  });
+
+  it("user cannot delete another user's blog", function () {
+    const testUser2 = {
+      name: "name2",
+      username: "username2",
+      password: "password2",
+    };
+
+    cy.contains("logout").click();
+    cy.createUser(testUser2);
+    cy.loginUser(testUser2);
+
+    cy.contains("show").click();
+    cy.get(".blog-delete-button").click();
+    cy.contains("unauthorized");
   });
 });
