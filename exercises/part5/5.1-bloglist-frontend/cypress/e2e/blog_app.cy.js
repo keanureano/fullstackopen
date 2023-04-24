@@ -31,7 +31,7 @@ describe("Blog app", () => {
   });
 });
 
-describe.only("When logged in", function () {
+describe("When logged in", function () {
   beforeEach(function () {
     cy.resetDatabase();
     cy.createUser(testUser);
@@ -39,7 +39,7 @@ describe.only("When logged in", function () {
     cy.visit("/");
   });
 
-  it("A blog can be created", function () {
+  it("a blog can be created", function () {
     cy.contains("new blog").click();
     cy.get("#form-title").type(testBlog.title);
     cy.get("#form-author").type(testBlog.author);
@@ -48,9 +48,33 @@ describe.only("When logged in", function () {
     cy.contains(`a new blog ${testBlog.title} by ${testBlog.author}`);
   });
 
-  it("Invalid blog cannot be created", function () {
+  it("invalid blog cannot be created", function () {
     cy.contains("new blog").click();
     cy.get("#form-submit").click();
     cy.contains("Blog validation failed");
+  });
+});
+
+describe.only("When user has a created blog", function () {
+  beforeEach(function () {
+    cy.resetDatabase();
+    cy.createUser(testUser);
+    cy.loginUser(testUser);
+    cy.createBlog(testBlog);
+    cy.visit("/");
+  });
+
+  it("user can see blog", function () {
+    cy.get(".blog");
+  });
+
+  it("user can see blog details", function () {
+    cy.contains("show").click();
+  });
+
+  it("user can like a blog", function () {
+    cy.contains("show").click();
+    cy.get(".blog-like-button").click();
+    cy.get(".blog-likes").contains("1");
   });
 });

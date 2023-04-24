@@ -55,8 +55,8 @@ const Blog = ({ blog }) => {
 const BlogHeader = ({ blog }) => {
   return (
     <div>
-      <div className="blog-title">{blog.title}</div>
-      <div className="blog-author">{blog.author}</div>
+      <span className="blog-title">{blog.title} </span>
+      <span className="blog-author">{blog.author}</span>
     </div>
   );
 };
@@ -67,14 +67,14 @@ const BlogBody = ({ blog, likes, handleLike, handleDelete }) => {
       <a className="blog-url" href={blog.url}>
         {blog.url}
       </a>
-      <div className="blog-likes">
-        likes {likes}
-        <button className="blog-like-btn" onClick={handleLike}>
+      <div>
+        likes <span className="blog-likes">{likes}</span>
+        <button className="blog-like-button" onClick={handleLike}>
           like
         </button>
       </div>
       <div>{blog.user.username}</div>
-      <button className="blog-delete-btn" onClick={handleDelete}>
+      <button className="blog-delete-button" onClick={handleDelete}>
         delete
       </button>
     </div>

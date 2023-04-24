@@ -25,11 +25,12 @@ Cypress.Commands.add("createBlog", function ({ title, author, url }) {
     body: { title, author, url },
     headers: {
       Authorization:
-        "Bearer " + JSON.parse(localStorage.getItem("localStorageUser")),
+        "Bearer " + JSON.parse(localStorage.getItem("localStorageUser")).token,
     },
   });
 });
 
 Cypress.Commands.add("resetDatabase", function () {
+  localStorage.clear();
   cy.request("POST", "api/testing/reset");
 });
