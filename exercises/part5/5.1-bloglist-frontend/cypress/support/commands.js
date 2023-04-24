@@ -21,3 +21,7 @@ Cypress.Commands.add("createBlog", function ({ title, author, url }) {
     },
   });
 });
+
+Cypress.Commands.add("resetDatabase", function () {
+  cy.request("POST", "api/testing/reset");
+});
