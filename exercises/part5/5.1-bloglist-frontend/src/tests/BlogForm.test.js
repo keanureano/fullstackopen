@@ -16,10 +16,10 @@ describe("blog form", () => {
       <BlogForm createBlog={createBlogMock} showNotif={showNotifMock} />
     ).container;
 
-    const titleInput = container.querySelector("input[name='title']");
-    const authorInput = container.querySelector("input[name='author']");
-    const urlInput = container.querySelector("input[name='url']");
-    const form = container.querySelector("form");
+    const titleInput = container.querySelector("#blog-title");
+    const authorInput = container.querySelector("#blog-author");
+    const urlInput = container.querySelector("#blog-url");
+    const form = container.querySelector("#blog-form");
 
     await act(async () => {
       fireEvent.change(titleInput, { target: { value: newBlog.title } });

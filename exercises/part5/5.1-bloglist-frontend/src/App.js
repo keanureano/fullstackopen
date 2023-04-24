@@ -7,6 +7,8 @@ import LoginForm from "./components/LoginForm";
 import LogoutForm from "./components/LogoutButton";
 import Notification from "./components/Notification";
 import Togglable from "./components/Togglable";
+import Footer from "./components/Footer";
+
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -34,24 +36,24 @@ const App = () => {
     }
   }, []);
 
-  if (!user) {
-    return (
-      <div>
-        <Notification ref={notifRef} />
-        <Togglable label="login">
-          <LoginForm setUser={setUser} showNotif={showNotif} />
-        </Togglable>
-      </div>
-    );
-  }
-
   return (
     <div>
       <Notification ref={notifRef} />
-      <LogoutForm user={user} setUser={setUser} />
-      <Togglable label="new blog" ref={blogFormRef}>
-        <BlogForm createBlog={createBlog} showNotif={showNotif} />
-      </Togglable>
+      {!user && (
+        <div>
+          <Togglable label="login">
+            <LoginForm setUser={setUser} showNotif={showNotif} />
+          </Togglable>
+        </div>
+      )}
+      {user && (
+        <div>
+          <LogoutForm user={user} setUser={setUser} />
+          <Togglable label="new blog" ref={blogFormRef}>
+            <BlogForm createBlog={createBlog} showNotif={showNotif} />
+          </Togglable>
+        </div>
+      )}
       <Blogs
         setUser={setUser}
         user={user}
@@ -59,6 +61,7 @@ const App = () => {
         setBlogs={setBlogs}
         showNotif={showNotif}
       />
+      <Footer />
     </div>
   );
 };
