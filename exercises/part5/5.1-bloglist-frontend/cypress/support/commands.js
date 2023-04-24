@@ -1,12 +1,20 @@
 /* eslint-disable linebreak-style */
 
-Cypress.Commands.add("login", function ({ username, password }) {
+Cypress.Commands.add("loginUser", function ({ username, password }) {
   cy.request("POST", "api/login", {
     username,
     password,
   }).then(function ({ body }) {
     localStorage.setItem("localStorageUser", JSON.stringify(body));
     cy.visit("");
+  });
+});
+
+Cypress.Commands.add("createUser", function ({ name, username, password }) {
+  cy.request({
+    url: "api/users",
+    method: "POST",
+    body: { name, username, password },
   });
 });
 
