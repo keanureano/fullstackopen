@@ -55,7 +55,7 @@ describe("When logged in", function () {
   });
 });
 
-describe.only("When user has a created blog", function () {
+describe("When user has a created blog", function () {
   beforeEach(function () {
     cy.resetDatabase();
     cy.createUser(testUser);
@@ -98,5 +98,29 @@ describe.only("When user has a created blog", function () {
     cy.contains("show").click();
     cy.get(".blog-delete-button").click();
     cy.contains("unauthorized");
+  });
+
+  it("blogs are ordered according to most likes", function () {
+    const testBlog2 = { title: "title2", author: "author2", url: "url2" };
+    cy.createBlog(testBlog2);
+    cy.visit("/");
+
+    const blog1 = cy.get(".blog").eq(0);
+    const blog2 = cy.get(".blog").eq(1);
+
+    blog1.contains("show").click();
+    cy.get(".blog-like-button").click();
+    cy.contains("1");
+    cy.visit("/");
+
+    blog2.contains("show").click();
+    cy.get(".blog-like-button").click();
+    cy.contains("1");
+    cy.get(".blog-like-button").click();
+    cy.contains("2");
+    cy.visit("/");
+
+    cy.get(".blog").eq(0).contains(testBlog2.title);
+    cy.get(".blog").eq(1).contains(testBlog.title);
   });
 });

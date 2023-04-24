@@ -61,7 +61,8 @@ const Blog = ({ blog, showNotif }) => {
 const BlogHeader = ({ blog }) => {
   return (
     <div>
-      <span className="blog-title">{blog.title} </span>
+      <span className="blog-title">{blog.title}</span>
+      <span> </span>
       <span className="blog-author">{blog.author}</span>
     </div>
   );
