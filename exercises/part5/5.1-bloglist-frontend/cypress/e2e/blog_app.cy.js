@@ -77,4 +77,10 @@ describe.only("When user has a created blog", function () {
     cy.get(".blog-like-button").click();
     cy.get(".blog-likes").contains("1");
   });
+
+  it("user can delete a blog", function () {
+    cy.contains("show").click();
+    cy.get(".blog-delete-button").click();
+    cy.should("not.contain", ".blog");
+  });
 });
