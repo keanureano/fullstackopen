@@ -1,12 +1,12 @@
 import { useDispatch } from "react-redux";
-import { filterChange } from "../reducers/filterReducer";
+import { changeFilter } from "../reducers/filterReducer";
 
 function AnecdoteFilter() {
   const dispatch = useDispatch();
 
   const changeHandler = (event) => {
-    const filter = event.target.value;
-    dispatch(filterChange(filter));
+    const filterText = event.target.value;
+    dispatch(changeFilter(filterText));
   };
   return (
     <div>
