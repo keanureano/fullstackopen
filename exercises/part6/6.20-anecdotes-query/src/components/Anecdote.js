@@ -4,8 +4,12 @@ import { updateAnecdote } from "../services/anecdotes";
 const Anecdote = ({ anecdote }) => {
   const queryClient = useQueryClient();
   const anecdoteMutation = useMutation(updateAnecdote, {
-    onSuccess: () => {
-      queryClient.invalidateQueries("anecdotes");
+    onSuccess: (updatedAnecdote) => {
+      const anecdotes = queryClient.getQueryData("anecdotes");
+      const updatedAnecdotes = anecdotes.map((anecdote) =>
+        anecdote.id === updatedAnecdote.id ? updatedAnecdote : anecdote
+      );
+      queryClient.setQueryData("anecdotes", updatedAnecdotes);
     },
   });
 
