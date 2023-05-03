@@ -1,9 +1,26 @@
+import { useMutation, useQueryClient } from "react-query";
+import { createAnecdote } from "../services/anecdotes";
+
 const AnecdoteForm = () => {
+  const queryClient = useQueryClient();
+
+  const anecdoteMutation = useMutation(createAnecdote, {
+    onSuccess: () => {
+      queryClient.invalidateQueries("anecdotes");
+    },
+  });
+
   const onCreate = (event) => {
     event.preventDefault();
-    const content = event.target.anecdote.value;
+    const newAnecdote = {
+      content: event.target.anecdote.value,
+      important: true,
+    };
+    
     event.target.anecdote.value = "";
-    console.log("new anecdote");
+
+    anecdoteMutation.mutate(newAnecdote);
+    console.log("new anecdote", newAnecdote);
   };
 
   return (

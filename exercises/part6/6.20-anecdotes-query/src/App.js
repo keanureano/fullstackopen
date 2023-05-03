@@ -1,13 +1,10 @@
 import { useQuery } from "react-query";
+import Anecdote from "./components/Anecdote";
 import AnecdoteForm from "./components/AnecdoteForm";
 import Notification from "./components/Notification";
 import { getAnecdotes } from "./services/anecdotes";
 
 const App = () => {
-  const handleVote = (anecdote) => {
-    console.log("vote");
-  };
-
   const result = useQuery("anecdotes", getAnecdotes, {
     retry: false,
   });
@@ -31,13 +28,7 @@ const App = () => {
       <AnecdoteForm />
 
       {anecdotes.map((anecdote) => (
-        <div key={anecdote.id}>
-          <div>{anecdote.content}</div>
-          <div>
-            has {anecdote.votes}
-            <button onClick={() => handleVote(anecdote)}>vote</button>
-          </div>
-        </div>
+        <Anecdote key={anecdote.id} anecdote={anecdote} />
       ))}
     </div>
   );
