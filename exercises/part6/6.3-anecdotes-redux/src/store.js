@@ -11,4 +11,6 @@ const store = configureStore({
   },
 });
 
+store.subscribe(() => console.dir(store.getState()));
+
 export default store;
