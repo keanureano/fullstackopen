@@ -1,4 +1,7 @@
+import { useNotifMessage } from "../contexts/NotifContext";
+
 const Notification = () => {
+  const notifMessage = useNotifMessage();
   const style = {
     border: "solid",
     padding: 10,
@@ -6,9 +9,9 @@ const Notification = () => {
     marginBottom: 5,
   };
 
-  if (true) return null;
+  if (!notifMessage) return null;
 
-  return <div style={style}></div>;
+  return <div style={style}>{notifMessage}</div>;
 };
 
 export default Notification;

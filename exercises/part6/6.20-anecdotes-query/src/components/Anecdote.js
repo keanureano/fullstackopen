@@ -1,7 +1,9 @@
 import { useMutation, useQueryClient } from "react-query";
 import { updateAnecdote } from "../services/anecdotes";
+import { useNotifDispatch } from "../contexts/NotifContext";
 
 const Anecdote = ({ anecdote }) => {
+  const addNotification = useNotifDispatch();
   const queryClient = useQueryClient();
   const anecdoteMutation = useMutation(updateAnecdote, {
     onSuccess: (updatedAnecdote) => {
@@ -16,7 +18,7 @@ const Anecdote = ({ anecdote }) => {
   const handleVote = (anecdote) => {
     const votedAnecdote = { ...anecdote, votes: anecdote.votes + 1 };
     anecdoteMutation.mutate(votedAnecdote);
-    console.log("voted anecdote", votedAnecdote);
+    addNotification(`voted anecdote ${votedAnecdote.content}`);
   };
 
   return (
