@@ -72,9 +72,9 @@ const CreateNew = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     props.addNew({
-      content: content.value,
-      author: author.value,
-      info: info.value,
+      content: content.props.value,
+      author: author.props.value,
+      info: info.props.value,
       votes: 0,
     });
     navigate("/");
@@ -86,15 +86,15 @@ const CreateNew = (props) => {
       <form onSubmit={handleSubmit}>
         <div>
           content
-          <input {...content} />
+          <input {...content.props} />
         </div>
         <div>
           author
-          <input {...author} />
+          <input {...author.props} />
         </div>
         <div>
           url for more info
-          <input {...info} />
+          <input {...info.props} />
         </div>
         <button type="submit">create</button>
         <button type="button" onClick={handleReset}>
@@ -179,18 +179,18 @@ const App = () => {
     notify(`a new anecdote ${anecdote.content} created!`);
   };
 
-  const anecdoteById = (id) => anecdotes.find((a) => a.id === id);
+  // const anecdoteById = (id) => anecdotes.find((a) => a.id === id);
 
-  const vote = (id) => {
-    const anecdote = anecdoteById(id);
+  // const vote = (id) => {
+  //   const anecdote = anecdoteById(id);
 
-    const voted = {
-      ...anecdote,
-      votes: anecdote.votes + 1,
-    };
+  //   const voted = {
+  //     ...anecdote,
+  //     votes: anecdote.votes + 1,
+  //   };
 
-    setAnecdotes(anecdotes.map((a) => (a.id === id ? voted : a)));
-  };
+  //   setAnecdotes(anecdotes.map((a) => (a.id === id ? voted : a)));
+  // };
 
   return (
     <div>
