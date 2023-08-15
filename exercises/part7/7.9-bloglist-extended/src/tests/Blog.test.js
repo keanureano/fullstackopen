@@ -2,7 +2,7 @@ import React from "react";
 import "@testing-library/jest-dom/extend-expect";
 import { render, fireEvent, act } from "@testing-library/react";
 import Blog from "../components/Blog";
-import blogService from "../services/blogs";
+import blogService from "../services/blogService";
 
 describe("blog", () => {
   const blog = {

@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import blogService from "./services/blogs";
+import blogService from "./services/blogService";
 import localStorageUserService from "./services/localStorageUser";
 import Blogs from "./components/Blogs";
 import BlogForm from "./components/BlogForm";
@@ -8,14 +8,17 @@ import LogoutForm from "./components/LogoutButton";
 import Notification from "./components/Notification";
 import Togglable from "./components/Togglable";
 import Footer from "./components/Footer";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser } from "./services/userSlice";
 
 const App = () => {
-  const [user, setUser] = useState(null);
+  const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const localStorageUser = localStorageUserService.get();
     if (localStorageUser) {
-      setUser(localStorageUser);
+      dispatch(setUser(localStorageUser));
       blogService.setToken(localStorageUser.token);
     }
   }, []);
@@ -26,13 +29,13 @@ const App = () => {
       {!user && (
         <div>
           <Togglable label="login">
-            <LoginForm setUser={setUser} />
+            <LoginForm />
           </Togglable>
         </div>
       )}
       {user && (
         <div>
-          <LogoutForm user={user} setUser={setUser} />
+          <LogoutForm />
           <Togglable label="new blog">
             <BlogForm />
           </Togglable>

@@ -1,10 +1,16 @@
+import { useDispatch, useSelector } from "react-redux";
 import localStorageUserService from "../services/localStorageUser";
+import { clearUser } from "../services/userSlice";
 
-const LogoutForm = ({ user, setUser }) => {
+const LogoutForm = () => {
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
+
   const handleLogout = () => {
-    setUser(null);
+    dispatch(clearUser());
     localStorageUserService.clear();
   };
+
   return (
     <div>
       {user.username} logged in
