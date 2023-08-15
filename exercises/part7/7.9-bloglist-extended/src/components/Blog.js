@@ -12,7 +12,7 @@ const Blog = ({ blog }) => {
   };
 
   return (
-    <div className="blog">
+    <div className="border-2 border-slate-800 p-4 mb-2">
       <BlogHeader blog={blog} />
       <ToggleButton toggleDetails={toggleDetails} details={details} />
       {details && <BlogBody blog={blog} />}
@@ -23,11 +23,11 @@ const Blog = ({ blog }) => {
 const BlogHeader = ({ blog }) => {
   return (
     <div>
-      <div className="blog-title">
+      <div className="text-2xl hover:text-green-500">
         <Link to={`blog/${blog.id}`}>{blog.title}</Link>
       </div>
-      <div className="blog-author">
-        <Link to={`author/${blog.author}`}>{blog.author}</Link>
+      <div className="mb-4 hover:text-green-500">
+        <Link to={`author/${blog.author}`}>- {blog.author}</Link>
       </div>
     </div>
   );
@@ -75,28 +75,29 @@ const BlogBody = ({ blog }) => {
   };
 
   return (
-    <div>
-      <a className="blog-url" href={blog.url}>
+    <div className="mt-4">
+      <a className="hover:underline" href={blog.url}>
         {blog.url}
       </a>
-      <div>
-        likes <span className="blog-likes">{blog.likes}</span>
-        <button className="blog-like-button" onClick={handleLike}>
-          like
-        </button>
-      </div>
-      <div>{blog.user.username}</div>
-      <button className="blog-delete-button" onClick={handleDelete}>
-        delete
+      <div className="mb-4">{blog.user.username}</div>
+      <div className="mb-4">👍 {blog.likes}</div>
+      <button className="underline text-green-300 hover:text-green-500 mr-4" onClick={handleLike}>
+        like?
+      </button>
+      <button className="underline text-green-300 hover:text-green-500" onClick={handleDelete}>
+        delete?
       </button>
     </div>
   );
 };
 
 const ToggleButton = ({ toggleDetails, details }) => {
-  const buttonLabel = details ? "hide" : "show";
+  const buttonLabel = details ? "hide" : "show more";
   return (
-    <button className="blog-toggle-btn" onClick={toggleDetails}>
+    <button
+      className="bg-green-400 text-green-950 px-2 rounded hover:bg-green-500"
+      onClick={toggleDetails}
+    >
       {buttonLabel}
     </button>
   );

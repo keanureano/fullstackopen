@@ -30,35 +30,44 @@ const BlogForm = () => {
   };
 
   return (
-    <div>
-      <h2>create new</h2>
+    <div className="absolute">
       <form onSubmit={handleSubmit}>
         <div>
-          title:
+          <div>title</div>
           <input
+            className="text-green-950"
+            type="text"
             value={title}
             id="form-title"
             onChange={({ target }) => setTitle(target.value)}
           />
         </div>
         <div>
-          author:
+          <div>author</div>
           <input
+            className="text-green-950"
             value={author}
+            type="text"
             id="form-author"
             onChange={({ target }) => setAuthor(target.value)}
           />
         </div>
         <div>
-          url:
+          <div>url</div>
           <input
+            className="text-green-950"
             value={url}
+            type="text"
             id="form-url"
             onChange={({ target }) => setUrl(target.value)}
           />
         </div>
-        <button id="form-submit" type="submit">
-          create
+        <button
+          className="underline text-green-400 hover:text-green-30"
+          id="form-submit"
+          type="submit"
+        >
+          submit
         </button>
       </form>
     </div>

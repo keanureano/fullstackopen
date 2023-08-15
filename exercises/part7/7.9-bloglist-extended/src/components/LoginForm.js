@@ -30,12 +30,12 @@ const LoginForm = () => {
   };
 
   return (
-    <div>
-      <h2>log in to application</h2>
+    <div className="absolute">
       <form onSubmit={handleLogin}>
         <div>
-          username
+          <div>username</div>
           <input
+            className="text-green-950"
             type="text"
             value={username}
             id="login-username"
@@ -43,16 +43,21 @@ const LoginForm = () => {
           />
         </div>
         <div>
-          password
+          <div>password</div>
           <input
-            type="text"
+            className="text-green-950"
+            type="password"
             value={password}
             id="login-password"
             onChange={({ target }) => setPassword(target.value)}
           />
         </div>
-        <button id="login-submit" type="submit">
-          login
+        <button
+          className="underline text-green-400 hover:text-green-300"
+          id="login-submit"
+          type="submit"
+        >
+          submit
         </button>
       </form>
     </div>

@@ -11,10 +11,19 @@ const LogoutForm = () => {
     localStorageUserService.clear();
   };
 
+  const capitalize = ([first, ...rest]) => {
+    return `${first.toUpperCase()}${rest.join("")}`;
+  };
+
   return (
-    <div>
-      {user.username} logged in
-      <button onClick={handleLogout}>logout</button>
+    <div className="flex gap-4 items-center">
+      <p>Welcome, {capitalize(user.username)}</p>
+      <button
+        className="underline text-green-400 hover:text-green-300"
+        onClick={handleLogout}
+      >
+        logout?
+      </button>
     </div>
   );
 };

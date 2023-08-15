@@ -4,8 +4,8 @@ import PropTypes from "prop-types";
 const Togglable = (props) => {
   const [isVisible, setIsVisible] = useState(false);
 
-  const hideWhenVisible = { display: isVisible ? "none" : "" };
-  const showWhenVisible = { display: isVisible ? "" : "none" };
+  const hideWhenVisible = isVisible ? "hidden" : "";
+  const showWhenVisible = isVisible ? "" : "hidden";
 
   const toggleVisibility = () => {
     setIsVisible(!isVisible);
@@ -13,12 +13,22 @@ const Togglable = (props) => {
 
   return (
     <div>
-      <div style={hideWhenVisible}>
-        <button onClick={toggleVisibility}>{props.label}</button>
+      <div className={hideWhenVisible}>
+        <button
+          className="underline text-green-400 hover:text-green-300"
+          onClick={toggleVisibility}
+        >
+          {props.label}
+        </button>
       </div>
-      <div style={showWhenVisible}>
+      <div className={showWhenVisible}>
+        <button
+          className="text-green-400 hover:text-green-300"
+          onClick={toggleVisibility}
+        >
+          cancel
+        </button>
         {props.children}
-        <button onClick={toggleVisibility}>cancel</button>
       </div>
     </div>
   );
