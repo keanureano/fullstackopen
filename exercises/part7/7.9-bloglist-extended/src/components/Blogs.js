@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import Blog from "./Blog";
 import blogService from "../services/blogs";
 
-const Blogs = ({ blogs, setBlogs, showNotif }) => {
+const Blogs = ({ blogs, setBlogs }) => {
   useEffect(() => {
     const getAllBlogs = async () => {
       const response = await blogService.getAll();
@@ -19,7 +19,7 @@ const Blogs = ({ blogs, setBlogs, showNotif }) => {
     <div>
       <h2>blogs</h2>
       {blogs.map((blog) => (
-        <Blog key={blog.id} blog={blog} showNotif={showNotif} />
+        <Blog key={blog.id} blog={blog} />
       ))}
     </div>
   );

@@ -3,8 +3,11 @@ import loginService from "../services/login";
 import blogService from "../services/blogs";
 import localStorageUserService from "../services/localStorageUser";
 import PropTypes from "prop-types";
+import { useDispatch } from "react-redux";
+import { showNotification } from "../services/notificationSlice";
 
-const LoginForm = ({ setUser, showNotif }) => {
+const LoginForm = ({ setUser }) => {
+  const dispatch = useDispatch();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -18,12 +21,12 @@ const LoginForm = ({ setUser, showNotif }) => {
       setUser(user);
       setUsername("");
       setPassword("");
-      const successMessage = "sucessfully logged in";
-      showNotif(successMessage, "success");
+      const message = "sucessfully logged in";
+      dispatch(showNotification({ message, type: "success" }));
     } catch (error) {
       console.log(error);
-      const errorMessage = error.response.data.error;
-      showNotif(errorMessage, "error");
+      const message = error.response.data.error;
+      dispatch(showNotification({ message, type: "error" }));
     }
   };
 
@@ -59,7 +62,6 @@ const LoginForm = ({ setUser, showNotif }) => {
 
 LoginForm.propTypes = {
   setUser: PropTypes.func.isRequired,
-  showNotif: PropTypes.func.isRequired,
 };
 
 export default LoginForm;

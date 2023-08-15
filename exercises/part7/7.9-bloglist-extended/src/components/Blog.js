@@ -1,7 +1,9 @@
 import { useState } from "react";
 import blogService from "../services/blogs";
+import { useDispatch } from "react-redux";
 
-const Blog = ({ blog, showNotif }) => {
+const Blog = ({ blog }) => {
+  const dispatch = useDispatch();
   const [details, setDetails] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
   const [likes, setLikes] = useState(blog.likes);
@@ -27,10 +29,11 @@ const Blog = ({ blog, showNotif }) => {
       const response = await blogService.remove(blog);
       const status = response.status === 204;
       setIsDeleted(status);
-      showNotif("successfully deleted", "success");
+      const message = "successfully deleted";
+      dispatch(showNotification({ message, type: "success" }));
     } catch (error) {
-      const errorMessage = error.response.data.error;
-      showNotif(errorMessage, "error");
+      const message = error.response.data.error;
+      dispatch(showNotification({ message, type: "error" }));
     }
   };
 

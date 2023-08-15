@@ -1,29 +1,25 @@
 import { useState, useRef, forwardRef, useImperativeHandle } from "react";
 
-const Notification = forwardRef((props, ref) => {
-  const [notification, setNotification] = useState(null);
-  const notifRef = useRef(null);
+import { useSelector, useDispatch } from "react-redux";
+import { hideNotification } from "../services/notificationSlice";
 
-  const showNotif = (message, type) => {
-    setNotification({ message, type });
-    setTimeout(() => setNotification(null), 5000);
-  };
-
-  useImperativeHandle(ref, () => {
-    return { showNotif };
-  });
+const Notification = forwardRef(() => {
+  const notification = useSelector((state) => state.notification);
+  const dispatch = useDispatch();
 
   if (!notification) {
     return null;
   }
 
+  setTimeout(() => {
+    dispatch(hideNotification());
+  }, 5000);
+
   return (
-    <div ref={notifRef} className={`notif notif-${notification.type}`}>
+    <div className={`notif notif-${notification.type}`}>
       {notification.message}
     </div>
   );
 });
-
-Notification.displayName = "Notification";
 
 export default Notification;
