@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { showNotification } from "../services/notificationSlice";
 import { deleteBlog, fetchBlogs, updateBlog } from "../services/blogSlice";
+import { Link } from "react-router-dom";
 
 const Blog = ({ blog }) => {
   const [details, setDetails] = useState(false);
@@ -22,9 +23,10 @@ const Blog = ({ blog }) => {
 const BlogHeader = ({ blog }) => {
   return (
     <div>
-      <span className="blog-title">{blog.title}</span>
-      <span> </span>
-      <span className="blog-author">{blog.author}</span>
+      <div className="blog-title">{blog.title}</div>
+      <Link className="blog-author" to={`author/${blog.author}`}>
+        {blog.author}
+      </Link>
     </div>
   );
 };

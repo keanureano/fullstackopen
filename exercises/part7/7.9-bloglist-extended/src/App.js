@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import blogService from "./services/blogService";
 import localStorageUserService from "./services/localStorageUser";
-import Blogs from "./components/Blogs";
 import BlogForm from "./components/BlogForm";
 import LoginForm from "./components/LoginForm";
 import LogoutForm from "./components/LogoutButton";
@@ -10,6 +9,8 @@ import Togglable from "./components/Togglable";
 import Footer from "./components/Footer";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "./services/userSlice";
+import { fetchBlogs } from "./services/blogSlice";
+import { Outlet } from "react-router-dom";
 
 const App = () => {
   const user = useSelector((state) => state.user);
@@ -21,7 +22,8 @@ const App = () => {
       dispatch(setUser(localStorageUser));
       blogService.setToken(localStorageUser.token);
     }
-  }, []);
+    dispatch(fetchBlogs());
+  }, [dispatch]);
 
   return (
     <div>
@@ -41,7 +43,7 @@ const App = () => {
           </Togglable>
         </div>
       )}
-      <Blogs />
+      <Outlet />
       <Footer />
     </div>
   );
