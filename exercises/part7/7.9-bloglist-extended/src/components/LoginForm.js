@@ -24,7 +24,6 @@ const LoginForm = () => {
       const message = "sucessfully logged in";
       dispatch(showNotification({ message, type: "success" }));
     } catch (error) {
-      console.log(error);
       const message = error.response.data.error;
       dispatch(showNotification({ message, type: "error" }));
     }

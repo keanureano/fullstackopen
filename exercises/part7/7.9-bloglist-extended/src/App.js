@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "./services/userSlice";
 import { fetchBlogs } from "./services/blogSlice";
 import { Outlet } from "react-router-dom";
+import Navbar from "./components/Navbar";
 
 const App = () => {
   const user = useSelector((state) => state.user);
@@ -28,6 +29,7 @@ const App = () => {
   return (
     <div>
       <Notification />
+      <Navbar />
       {!user && (
         <div>
           <Togglable label="login">

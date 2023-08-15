@@ -1,20 +1,22 @@
-import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { Outlet } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Author = () => {
-  const { authorId } = useParams();
   const blogs = useSelector((state) => state.blogs.blogs);
-
-  const authorBlogs = blogs.filter((blog) => blog.author === authorId);
+  console.log(blogs);
+  const authors = [...new Set(blogs.map((blog) => blog.author))];
 
   return (
     <div>
-      <h2>{authorId}</h2>
-      <h3>Published Blogs</h3>
+      <h2>Authors</h2>
       <ul>
-        {authorBlogs.map((blog) => (
-          <li key={blog.id}>{blog.title}</li>
+        {authors.map((author) => (
+          <li key={author}>
+            <Link to={`${author}`}>{author}</Link>
+          </li>
         ))}
+        <Outlet />
       </ul>
     </div>
   );

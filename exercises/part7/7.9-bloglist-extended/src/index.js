@@ -5,10 +5,11 @@ import "./index.css";
 import { Provider } from "react-redux";
 import store from "./services/store";
 import { createBrowserRouter } from "react-router-dom";
-import Author from "./components/Author";
+import AuthorView from "./components/AuthorView";
 import { RouterProvider } from "react-router-dom";
 import Blogs from "./components/Blogs";
 import BlogView from "./components/BlogView";
+import Author from "./components/Author";
 
 const router = createBrowserRouter([
   {
@@ -20,12 +21,18 @@ const router = createBrowserRouter([
         element: <Blogs />,
       },
       {
-        path: "author/:authorId",
+        path: "author",
         element: <Author />,
+        children: [
+          {
+            path: ":authorId",
+            element: <AuthorView />,
+          },
+        ],
       },
       {
         path: "blog/:blogId",
-        element: <BlogView/>,
+        element: <BlogView />,
       },
     ],
   },
