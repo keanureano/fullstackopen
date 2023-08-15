@@ -1,20 +1,15 @@
 import { useEffect } from "react";
 import Blog from "./Blog";
-import blogService from "../services/blogs";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchBlogs } from "../services/blogSlice";
 
-const Blogs = ({ blogs, setBlogs }) => {
+const Blogs = () => {
+  const dispatch = useDispatch();
+  const blogs = useSelector((state) => state.blogs.blogs);
+
   useEffect(() => {
-    const getAllBlogs = async () => {
-      const response = await blogService.getAll();
-      const sortedBlogs = [...response].sort(
-        (current, next) => next.likes - current.likes
-      );
-      setBlogs(sortedBlogs);
-    };
-
-    getAllBlogs();
-  }, []);
-
+    dispatch(fetchBlogs());
+  }, [dispatch]);
   return (
     <div>
       <h2>blogs</h2>

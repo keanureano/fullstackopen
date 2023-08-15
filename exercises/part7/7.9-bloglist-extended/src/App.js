@@ -8,12 +8,9 @@ import LogoutForm from "./components/LogoutButton";
 import Notification from "./components/Notification";
 import Togglable from "./components/Togglable";
 import Footer from "./components/Footer";
-import { useDispatch } from "react-redux";
 
 const App = () => {
-  const dispatch = useDispatch();
   const [user, setUser] = useState(null);
-  const [blogs, setBlogs] = useState([]);
 
   const notifRef = useRef();
   const blogFormRef = useRef();
@@ -51,11 +48,11 @@ const App = () => {
         <div>
           <LogoutForm user={user} setUser={setUser} />
           <Togglable label="new blog" ref={blogFormRef}>
-            <BlogForm createBlog={createBlog} />
+            <BlogForm />
           </Togglable>
         </div>
       )}
-      <Blogs blogs={blogs} setBlogs={setBlogs} />
+      <Blogs />
       <Footer />
     </div>
   );

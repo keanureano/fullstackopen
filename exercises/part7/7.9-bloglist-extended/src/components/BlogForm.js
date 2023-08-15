@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { showNotification } from "../services/notificationSlice";
 import { useDispatch } from "react-redux";
+import { createNewBlog, fetchBlogs } from "../services/blogSlice";
 
-const BlogForm = ({ createBlog }) => {
+const BlogForm = () => {
   const dispatch = useDispatch();
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
@@ -12,12 +13,13 @@ const BlogForm = ({ createBlog }) => {
     event.preventDefault();
     try {
       const newBlog = { title, author, url };
-      const response = await createBlog(newBlog);
+      const response = await dispatch(createNewBlog(newBlog));
       const message = `a new blog ${response.title} by ${response.author}`;
       dispatch(showNotification({ message, type: "success" }));
+      dispatch(fetchBlogs());
     } catch (error) {
       const message = error.response.data.error;
-      dispatchEvent(showNotification({ errorMessage: message, type: "error" }));
+      dispatch(showNotification({ message, type: "error" }));
     }
     setTitle("");
     setAuthor("");
