@@ -8,6 +8,7 @@ import { createBrowserRouter } from "react-router-dom";
 import Author from "./components/Author";
 import { RouterProvider } from "react-router-dom";
 import Blogs from "./components/Blogs";
+import BlogView from "./components/BlogView";
 
 const router = createBrowserRouter([
   {
@@ -19,8 +20,12 @@ const router = createBrowserRouter([
         element: <Blogs />,
       },
       {
-        path: "author/:author",
+        path: "author/:authorId",
         element: <Author />,
+      },
+      {
+        path: "blog/:blogId",
+        element: <BlogView/>,
       },
     ],
   },

@@ -23,10 +23,12 @@ const Blog = ({ blog }) => {
 const BlogHeader = ({ blog }) => {
   return (
     <div>
-      <div className="blog-title">{blog.title}</div>
-      <Link className="blog-author" to={`author/${blog.author}`}>
-        {blog.author}
-      </Link>
+      <div className="blog-title">
+        <Link to={`blog/${blog.id}`}>{blog.title}</Link>
+      </div>
+      <div className="blog-author">
+        <Link to={`author/${blog.author}`}>{blog.author}</Link>
+      </div>
     </div>
   );
 };
