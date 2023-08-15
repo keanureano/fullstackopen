@@ -9,18 +9,21 @@ const BlogForm = () => {
   const [author, setAuthor] = useState("");
   const [url, setUrl] = useState("");
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
-    try {
-      const newBlog = { title, author, url };
-      const response = await dispatch(createNewBlog(newBlog));
-      const message = `a new blog ${response.title} by ${response.author}`;
-      dispatch(showNotification({ message, type: "success" }));
-      dispatch(fetchBlogs());
-    } catch (error) {
-      const message = error.response.data.error;
-      dispatch(showNotification({ message, type: "error" }));
-    }
+    const newBlog = { title, author, url };
+
+    dispatch(createNewBlog(newBlog))
+      .then((response) => {
+        dispatch(fetchBlogs());
+        const message = `A new blog "${response.title}" by ${response.author} has been created.`;
+        dispatch(showNotification({ message, type: "success" }));
+      })
+      .catch((error) => {
+        const message = error.response.data.error;
+        dispatch(showNotification({ message, type: "error" }));
+      });
+
     setTitle("");
     setAuthor("");
     setUrl("");

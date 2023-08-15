@@ -12,20 +12,6 @@ import Footer from "./components/Footer";
 const App = () => {
   const [user, setUser] = useState(null);
 
-  const notifRef = useRef();
-  const blogFormRef = useRef();
-
-  const showNotif = (message, type) => {
-    notifRef.current.showNotif(message, type);
-  };
-
-  const createBlog = async (newBlog) => {
-    blogFormRef.current.toggleVisibility();
-    const returnedBlog = await blogService.create(newBlog);
-    setBlogs(blogs.concat(returnedBlog));
-    return returnedBlog;
-  };
-
   useEffect(() => {
     const localStorageUser = localStorageUserService.get();
     if (localStorageUser) {
@@ -36,7 +22,7 @@ const App = () => {
 
   return (
     <div>
-      <Notification ref={notifRef} />
+      <Notification />
       {!user && (
         <div>
           <Togglable label="login">
@@ -47,7 +33,7 @@ const App = () => {
       {user && (
         <div>
           <LogoutForm user={user} setUser={setUser} />
-          <Togglable label="new blog" ref={blogFormRef}>
+          <Togglable label="new blog">
             <BlogForm />
           </Togglable>
         </div>

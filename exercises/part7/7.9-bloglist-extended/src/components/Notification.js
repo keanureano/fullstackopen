@@ -1,9 +1,7 @@
-import { useState, useRef, forwardRef, useImperativeHandle } from "react";
-
 import { useSelector, useDispatch } from "react-redux";
 import { hideNotification } from "../services/notificationSlice";
 
-const Notification = forwardRef(() => {
+const Notification = () => {
   const notification = useSelector((state) => state.notification);
   const dispatch = useDispatch();
 
@@ -20,6 +18,6 @@ const Notification = forwardRef(() => {
       {notification.message}
     </div>
   );
-});
+};
 
 export default Notification;

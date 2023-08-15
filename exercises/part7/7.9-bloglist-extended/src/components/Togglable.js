@@ -1,7 +1,7 @@
-import { useState, forwardRef, useImperativeHandle } from "react";
+import { useState, forwardRef } from "react";
 import PropTypes from "prop-types";
 
-const Togglable = forwardRef((props, refs) => {
+const Togglable = forwardRef((props) => {
   const [isVisible, setIsVisible] = useState(false);
 
   const hideWhenVisible = { display: isVisible ? "none" : "" };
@@ -10,10 +10,6 @@ const Togglable = forwardRef((props, refs) => {
   const toggleVisibility = () => {
     setIsVisible(!isVisible);
   };
-
-  useImperativeHandle(refs, () => {
-    return { toggleVisibility };
-  });
 
   return (
     <div>

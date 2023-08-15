@@ -18,6 +18,19 @@ export const createNewBlog = createAsyncThunk(
   }
 );
 
+export const updateBlog = createAsyncThunk("blogs/updateBlog", async (blog) => {
+  const response = await blogService.put(blog);
+  return response;
+});
+
+export const deleteBlog = createAsyncThunk(
+  "blogs/deleteBlog",
+  async (blog) => {
+    await blogService.remove(blog);
+    return blog;
+  }
+);
+
 const blogSlice = createSlice({
   name: "blogs",
   initialState,
